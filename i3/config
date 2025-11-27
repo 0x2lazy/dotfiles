@@ -13,7 +13,8 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 14
+font pango:monospace 0
+#for_window [class=".*"] title_format ""
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -55,7 +56,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id rofi -show drun
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -181,12 +182,23 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
+# GAPS
+
+gaps inner 5px
+gaps outer 3px
+
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
-
-exec_always feh --bg-fill $HOME/Pictures/walls/wallhaven-28mypy_1920x1080.png
+# ~/.config/i3/config
+exec_always --no-startup-id polybar &
+exec_always --no-startup-id ~/.config/polybar/launch.sh --grayblocks
+exec_always picom &
+exec_always feh --bg-fill $HOME/.config/wallpapers/flower.jpg
+exec_always --no-startup-id xinput set-prop 13 "libinput Tapping Enabled" 1
+exec_always --no-startup-id autotiling &
+# Restart PipeWire and WirePlumber on i3 login
+#exec_always --no-startup-id systemctl --user restart pipewire wireplumber &
+#feh --bg-fill ~/.config/wallpapers/5m5kLI9.png
+#feh --bg-fill ~/.config/wallpapers/wall.jpg
